@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "name": "api",
+            "version": "1.0",
+            "main": "src/main.rs",
+            "build": true,
+            "env": {},
+            "configurations": []
+        }
+    ]
+}
