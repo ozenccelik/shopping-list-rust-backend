@@ -1,13 +1,13 @@
 use axum::{
-    routing::{get, post},
+    routing::{get, post, put, delete},
     Router, Json, extract::{Path, Query}, http::StatusCode,
 };
 use mongodb::{Client, Database};
 use std::{env, sync::Arc};
 use tower_http::{
-    compression::CompressionLayer,
+    // compression::CompressionLayer,
     cors::{CorsLayer, Any},
-    rate_limit::RateLimitLayer,
+    // rate_limit::RateLimitLayer,
 };
 use tower::{ServiceBuilder, layer::util::Identity};
 use tracing::{info, Level};
@@ -75,15 +75,17 @@ async fn main() {
         .route("/shopping-list/:id", delete(delete_shopping_list))
         .route("/shopping-list/:id/item", post(insert_item))
         .route("/shopping-list/:id/item/:item_id", put(update_item))
-        .route("/shopping-list/:id/item/:item_id", delete(delete_item))
+        .route("/shopping-list/:id/item/:item_id", delete(delete_item));
+
+        /*
         // Custom middleware logging
         .layer(ServiceBuilder::new().layer(log_request))
         .layer(ServiceBuilder::new()
             .layer(Identity::new())  // Using Identity from tower for simple request logging
-            .layer(CompressionLayer::new())    // Enable response compression (gzip, brotli)
             .layer(CorsLayer::new().allow_origin(Any)) // Enable CORS
-            .layer(RateLimitLayer::new(100, std::time::Duration::from_secs(60))) // Rate Limiting: 100 requests/min
-        );
+            // .layer(CompressionLayer::new())    // Enable response compression (gzip, brotli)
+            // .layer(RateLimitLayer::new(100, std::time::Duration::from_secs(60))) // Rate Limiting: 100 requests/min
+        );*/
 
     let addr = "127.0.0.1:3000".parse().unwrap();
     info!("Server running on {}", addr);
